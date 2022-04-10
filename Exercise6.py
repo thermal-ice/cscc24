@@ -13,6 +13,7 @@ class Matrix:
         # what about
         # return  "shape:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in self.matrix])
         return f"{self.numRows} x {self.numCols} Matrix:\n" \
+               f"{self.matrix}"
 
     def __add__(self, other):
         
@@ -45,5 +46,6 @@ matrix2 = Matrix([[2, 2],
                   [2, 2]])
 
 matrix3 = matrix1 + matrix2
-matrix3 = matrix1 + 5
+matrix4 = matrix1 + 5
 print(matrix3)
+print(matrix4)
