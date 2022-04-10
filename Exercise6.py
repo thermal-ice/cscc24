@@ -10,14 +10,16 @@ class Matrix:
         self.numCols = len(matrix[0])
 
     def __str__(self):
+        # what about
+        # return  "shape:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in self.matrix])
         return f"{self.numRows} x {self.numCols} Matrix:\n" \
-               f"{self.matrix}"
 
     def __add__(self, other):
-        if self.numCols != other.numCols or self.numRows != other.numRows:
-            raise ValueError("Number of columns and rows in both matrices don't match")
-
+        
         if isinstance(other, self.__class__):
+            if self.numCols != other.numCols or self.numRows != other.numRows:
+                raise ValueError("Number of columns and rows in both matrices don't match")
+            
             outerArr = []
             for i in range(self.numRows):
                 tempRowArr = []
@@ -29,7 +31,10 @@ class Matrix:
             return Matrix(outerArr)
 
         if isinstance(other, int):
-            return "will implement later"
+            # should I expand this like urs?
+            return Matrix([[self.matrix[i][j]+other for j in range(self.numCols)]
+                            for i in range(self.numRows)])
+
 
 
 # Running a script test
@@ -40,5 +45,5 @@ matrix2 = Matrix([[2, 2],
                   [2, 2]])
 
 matrix3 = matrix1 + matrix2
-
+matrix3 = matrix1 + 5
 print(matrix3)
