@@ -84,7 +84,7 @@ class Matrix:
 
     def __str__(self):
         # what about
-        return  "shape:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:6}'.format(item) for item in row]) for row in self.matrix])
+        return  "Matrix:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:6}'.format(item) for item in row]) for row in self.matrix])
         # return f"{self.numRows} x {self.numCols} Matrix:\n" \
         #        f"{self.matrix}"
 
@@ -123,14 +123,17 @@ matrix1 = Matrix([[1, 2],
 matrix2 = Matrix([[2, 2],
                   [2, 2]])
 
+# Matrix addition
 matrix3 = matrix1 + matrix2
-matrix4 = 5+ matrix1
 print(matrix3)
+
+# Scalar addition
+matrix4 = 5 + matrix1
 print(matrix4)
-matrix5 = Matrix([[5,6],
-                 [7,8]])
 
 
+# Matrix transpose
+matrix5 = ~matrix1
 
-# print(matrix1.getCol(1))
-print(-2 *(matrix1 * matrix5))
+# Matrix multiplication and scalar multiplication
+print(-2 *(matrix1 * matrix4))
