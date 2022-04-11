@@ -9,6 +9,16 @@ class Matrix:
         self.numRows = len(matrix)
         self.numCols = len(matrix[0])
 
+    def dotProduct(self,vec1: list, vec2: list):
+        if len(vec1) != len(vec2):
+            return "Invalid operation: different vector lengths"
+
+        dotProdSum = 0
+        for i in range(len(vec1)):
+            dotProdSum += vec1[i] * vec2[i]
+
+        return dotProdSum
+
     def getRow(self, rowNum: int):
         if rowNum < 0 or rowNum > self.numRows:
             return "invalid index for rows"
@@ -24,11 +34,64 @@ class Matrix:
 
         return retCol
 
+    def __invert__(self):
+        transposeMatrix = []
+        for i in range(self.numCols):
+            transposeMatrix.append(self.getCol(i))
+
+        return Matrix(transposeMatrix)
+
+    def __neg__(self):
+        multArr = []
+        for row in self.matrix:
+            tempRowArr = []
+            for cellVal in row:
+                tempRowArr.append(cellVal * -1)
+            multArr.append(tempRowArr)
+        return Matrix(multArr)
+
+    def __mul__(self, other):
+        if isinstance(other, self.__class__):
+
+            if self.numCols != other.numRows:
+                return "Invalid dimensions for matrix multiplication"
+
+            multiplicationArr = []
+            for i in range(self.numRows):
+                tempRowArr = []
+                for j in range(other.numCols):
+                    dotProdRes = self.dotProduct(self.getRow(i),other.getCol(j))
+                    tempRowArr.append(dotProdRes)
+
+                multiplicationArr.append(tempRowArr)
+
+            return Matrix(multiplicationArr)
+
+        if isinstance(other, (int, float)):
+            multArr = []
+            for row in self.matrix:
+                tempRowArr = []
+                for cellVal in row:
+                    tempRowArr.append(cellVal * other)
+                multArr.append(tempRowArr)
+            return Matrix(multArr)
+
+        return "Invalid operation type"
+
+
+
+
     def __str__(self):
         # what about
-        return  "shape:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in self.matrix])
+        return  "shape:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:6}'.format(item) for item in row]) for row in self.matrix])
         # return f"{self.numRows} x {self.numCols} Matrix:\n" \
         #        f"{self.matrix}"
+
+    def __radd__(self, other):
+        if isinstance(other, (int, float)):
+            return Matrix([[self.matrix[i][j] + other for j in range(self.numCols)]
+                           for i in range(self.numRows)])
+        return "Invalid addition operation. Type isn't plus"
 
     def __add__(self, other):
         
@@ -47,7 +110,6 @@ class Matrix:
             return Matrix(outerArr)
 
         if isinstance(other, int):
-            # should I expand this like urs?
             return Matrix([[self.matrix[i][j]+other for j in range(self.numCols)]
                             for i in range(self.numRows)])
 
@@ -61,8 +123,13 @@ matrix2 = Matrix([[2, 2],
                   [2, 2]])
 
 matrix3 = matrix1 + matrix2
-matrix4 = matrix1 + 5
-# print(matrix3)
-# print(matrix4)
+matrix4 = 5+ matrix1
+print(matrix3)
+print(matrix4)
+matrix5 = Matrix([[5,6],
+                 [7,8]])
 
-print(matrix1.getRow(1))
+
+
+# print(matrix1.getCol(1))
+# print(-(matrix1 * matrix5) )
