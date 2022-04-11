@@ -9,7 +9,7 @@ class Matrix:
         self.numRows = len(matrix)
         self.numCols = len(matrix[0])
 
-    def dotProduct(self,vec1: list, vec2: list):
+    def dotProduct(self, vec1: list, vec2: list):
         if len(vec1) != len(vec2):
             return "Invalid operation: different vector lengths"
 
@@ -69,7 +69,7 @@ class Matrix:
             for i in range(self.numRows):
                 tempRowArr = []
                 for j in range(other.numCols):
-                    dotProdRes = self.dotProduct(self.getRow(i),other.getCol(j))
+                    dotProdRes = self.dotProduct(self.getRow(i), other.getCol(j))
                     tempRowArr.append(dotProdRes)
 
                 multiplicationArr.append(tempRowArr)
@@ -81,10 +81,10 @@ class Matrix:
 
         return "Invalid operation type"
 
-
     def __str__(self):
         # what about
-        return  "Matrix:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join([''.join(['{:6}'.format(item) for item in row]) for row in self.matrix])
+        return "Matrix:({0},{1})\n".format(self.numRows, self.numCols) + '\n'.join(
+            [''.join(['{:6}'.format(item) for item in row]) for row in self.matrix])
         # return f"{self.numRows} x {self.numCols} Matrix:\n" \
         #        f"{self.matrix}"
 
@@ -95,11 +95,11 @@ class Matrix:
         return "Invalid addition operation. Type isn't plus"
 
     def __add__(self, other):
-        
+
         if isinstance(other, self.__class__):
             if self.numCols != other.numCols or self.numRows != other.numRows:
                 raise ValueError("Number of columns and rows in both matrices don't match")
-            
+
             outerArr = []
             for i in range(self.numRows):
                 tempRowArr = []
@@ -111,9 +111,8 @@ class Matrix:
             return Matrix(outerArr)
 
         if isinstance(other, int):
-            return Matrix([[self.matrix[i][j]+other for j in range(self.numCols)]
-                            for i in range(self.numRows)])
-
+            return Matrix([[self.matrix[i][j] + other for j in range(self.numCols)]
+                           for i in range(self.numRows)])
 
 
 # Running a script test
@@ -131,9 +130,8 @@ print(matrix3)
 matrix4 = 5 + matrix1
 print(matrix4)
 
-
 # Matrix transpose
 matrix5 = ~matrix1
 
 # Matrix multiplication and scalar multiplication
-print(-2 *(matrix1 * matrix4))
+print(-2 * (matrix1 * matrix4))
