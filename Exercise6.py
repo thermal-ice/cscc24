@@ -41,14 +41,23 @@ class Matrix:
 
         return Matrix(transposeMatrix)
 
-    def __neg__(self):
+    def __scalarMult(self, scalarVal):
         multArr = []
         for row in self.matrix:
             tempRowArr = []
             for cellVal in row:
-                tempRowArr.append(cellVal * -1)
+                tempRowArr.append(cellVal * scalarVal)
             multArr.append(tempRowArr)
         return Matrix(multArr)
+
+    def __neg__(self):
+        return self.__scalarMult(-1)
+
+    def __rmul__(self, other):
+        if isinstance(other, (int, float)):
+            return self.__scalarMult(other)
+
+        return "Invalid multiplication operation"
 
     def __mul__(self, other):
         if isinstance(other, self.__class__):
@@ -68,17 +77,9 @@ class Matrix:
             return Matrix(multiplicationArr)
 
         if isinstance(other, (int, float)):
-            multArr = []
-            for row in self.matrix:
-                tempRowArr = []
-                for cellVal in row:
-                    tempRowArr.append(cellVal * other)
-                multArr.append(tempRowArr)
-            return Matrix(multArr)
+            return self.__scalarMult(other)
 
         return "Invalid operation type"
-
-
 
 
     def __str__(self):
@@ -132,4 +133,4 @@ matrix5 = Matrix([[5,6],
 
 
 # print(matrix1.getCol(1))
-# print(-(matrix1 * matrix5) )
+print(-2 *(matrix1 * matrix5))
